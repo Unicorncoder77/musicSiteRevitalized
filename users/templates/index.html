@@ -20,6 +20,13 @@ The Experience Home
     </p>
 
 </div>
+<div class="row">
+    {% if user.is_authenticated %}
+    <center><h1> Welcome Back! {{user.username}}!</h1></center>
+    {% else %}
+    <center><h1> You haven't logged in yet ...</h1></center>
+    {% endif %}
+</div>
 
 <h2 class="checkOut">Check out some HOT new articles</h2>
 
