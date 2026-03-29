@@ -43,3 +43,23 @@ ul li a:hover {
     text-align: center;
     padding-top: 25px;
 }
+
+.registerForm {
+    text-align: center;
+}
+
+.submitBtn {
+    background-color: #d8e2dc;
+    border: none;
+    color: black;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.registerForm input[type=text] {
+    background-color: #fefae0;
+}

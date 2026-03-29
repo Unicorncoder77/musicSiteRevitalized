@@ -1,23 +1,41 @@
 {% extends "master.html" %}
-{% load crispy_forms_tags %}
 {% block title %}
-Login 
+Sign Up 
 {% endblock %}
 {% block content %}
 {% include "nav.html" %}
 
 <div>
+    
+
+    
     <form method="POST">
         {% csrf_token %}
-        <fieldset>
-            {{ form|crispy}}
-        </fieldset>
-        <center>
-            <button type="submit">Sign Up</button>
-        </center>
-        <br>
-        <sub>Already have an account? <a href="{% url 'login'}">Log in</a></sub>
+        
+            {{ form.as_p }}
+
+            <button class="submitBtn" type="submit">Sign Up</button>
+        
+        
     </form>
 </div>
+
+{{ userForm.errors }}
+{{ passForm.errors }}
+
+<!--<form action="#" method="post">
+   {% csrf_token %}
+    <p>
+        <label for="id_username">Create a Username: </label>
+        <input type="text" name="username" maxlength="30" required="" id="id_username">
+        </p>
+        <p>
+            <label for="id_email">Enter a valid Email: </label>
+            <input type="email" required="" id="id_email">
+
+        </p>
+        <input type="submit" value="Submit">
+    </p>
+</form>-->
 
 {% endblock %}

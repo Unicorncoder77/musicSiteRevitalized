@@ -6,21 +6,11 @@ Login
 {% block content %}
 {% include "nav.html" %}
 
-<div>
-    <center>
-        <form method="POST">
-            {% csrf_token %}
-            <fieldset>
-                {{ form|crispy}}
-            </fieldset>
-            <center>
-                <button type="submit">Login</button>
-            </center>
-            <br/>
-            <sub>Don't have an account yet? <a href="{% url 'register' %}"Sign up</sub>
-        </form>
-    </center>
-    
-</div>
+<p>{{ message }}</p>
+<form method="POST">
+    {{ form.as_p }}
+    {% csrf_token %}
+    <button type="submit"> Submit</button>
+</form>
 
 {% endblock %}

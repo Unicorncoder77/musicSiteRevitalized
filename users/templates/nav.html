@@ -10,12 +10,10 @@ Nav Bar
     <li><a href="http://127.0.0.1:8000">Home</a></li>
     <li><a href="#">Articles</a></li>
     <li><a href="#">Reviews</a></li>
-    {% if user.is_authenticated %}
-    <li><a href="{% url 'logout' %}">Logout</a></li>
-    {% else %}
-    <li><a href="{% url 'register' %}">Register</a></li>
-    <li><a href="{% url 'login' %}">Login</a></li>
-    {% endif %}
+    
+    <li><a href="http://127.0.0.1:8000/register">Register</a></li>
+    <li><a href="/login">Login</a></li>
+
     
 </ul>
 

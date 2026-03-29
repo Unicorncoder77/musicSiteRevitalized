@@ -1,15 +1,28 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.contrib.auth.hashers import make_password, check_password
 
 # Create your models here.
 class User(models.Model):
     username = models.CharField(max_length=255)
     email = models.EmailField(max_length=255, unique=True, null=True)
     joined_date = models.DateField(auto_now_add=True, null=True)
+    password = models.CharField(max_length=255, null=False)
+    def save(self, *args, **kwargs):
+        # hash if not hashed already
+        if not self.password.startswith('pbkdf2_'):
+            self.password = make_password(self.password)
+        super().save(*args, **kwargs)
 
+'''class userPasswords(models.Model):
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    password = models.CharField(max_length=255)'''
+
+    
+
+"""
 class Category(models.Model):
-    category_name = models.CharField(max_length=255, null=True)
-
+   category_name = models.CharField(max_length=255, null=True)
 class Review(models.Model):
     review = models.TextField()
     stars = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
@@ -25,4 +38,6 @@ class Creator(models.Model):
     email = models.EmailField(max_length=255, unique=True, null=True)
     pen_name = models.CharField(max_length=255)
     joined_date = models.DateField(auto_now_add=True, null=True)
+"""
+
 
