@@ -7,10 +7,29 @@ Login
 {% include "nav.html" %}
 
 <p>{{ message }}</p>
-<form method="POST">
-    {{ form.as_p }}
-    {% csrf_token %}
-    <button type="submit"> Submit</button>
-</form>
+<div class="formDiv">
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        
+        <input type="checkbox" onclick="togglePassword()"> Show Password
+        <div class="btnonly">
+            <button class="submitBtn"type="submit"> Submit</button>
+        </div>
+        
+    </form>
+
+</div>
+<script>
+    function togglePassword() {
+        var passField = document.getElementById("password");
+        if (passField.type === "password") {
+            passField.type = "text";
+        }
+        else {
+            passField.type = "password";
+        }
+    }
+</script>
 
 {% endblock %}

@@ -1,9 +1,10 @@
 from django import forms
-#from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
-from .models import User
+from .models import User, Profile
 from django.forms import ModelForm
 from django.contrib.auth.hashers import make_password
+
 
 # for the standard user rather than the creator
 
@@ -23,9 +24,9 @@ from django.contrib.auth.hashers import make_password
 
         return instance'''
 class UserRegisterForm(forms.ModelForm):
-    username = forms.CharField(label="username", max_length = 20, widget=forms.TextInput)
-    email = forms.EmailField(label="email", widget=forms.TextInput)
-    password = forms.CharField(widget=forms.PasswordInput())
+    username = forms.CharField(label="Username", max_length = 20, widget=forms.TextInput)
+    email = forms.EmailField(label="Email", widget=forms.TextInput)
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'id': 'password'}))
    
     class Meta:
         model = User
@@ -41,8 +42,25 @@ class UserRegisterForm(forms.ModelForm):
 
 class UserLoginForm(forms.Form):
     username = forms.CharField(max_length=20)
-    password = forms.CharField(max_length=25, widget=forms.PasswordInput)
+    password = forms.CharField(max_length=25, widget=forms.PasswordInput(attrs={'id': 'password'}))
 
+
+class UpdateUserForm(forms.ModelForm):
+    '''username = forms.CharField(label="Username", max_length=20, widget=forms.TextInput)
+    email = forms.EmailField(label="Email", widget=forms.TextInput)'''
+    print(User)
+
+    class Meta: 
+        model = User
+        fields = ['username', 'email']
+
+class UpdateProfileForm(forms.ModelForm):
+    avatar = forms.ImageField(label="avatar", widget=forms.FileInput)
+    bio = forms.CharField(label="bio", widget=forms.Textarea)
+    print(User)
+    class Meta:
+        model = Profile
+        fields = ['avatar', 'bio']
 
     
     

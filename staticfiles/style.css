@@ -44,8 +44,12 @@ ul li a:hover {
     padding-top: 25px;
 }
 
-.registerForm {
+.formDiv {
     text-align: center;
+    padding-top: 88px;
+    justify-content: center;;
+    display: flex;
+    
 }
 
 .submitBtn {
@@ -60,6 +64,73 @@ ul li a:hover {
     cursor: pointer;
 }
 
-.registerForm input[type=text] {
-    background-color: #fefae0;
+.formDiv input {
+    margin: 10px;
+    border: none; 
+    box-sizing: border-box;
+    padding-left: 15px;
 }
+
+.formDiv label {
+    
+    text-align: left;
+    
+}
+
+.formDiv p {
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    
+
+}
+
+.formDiv form {
+    flex-direction: column;
+    display: fixed;
+    padding: 20px;
+    border: 2px solid #f08080;
+    width: 300px;
+    text-align: center;
+    border-radius: 8px;
+    
+    
+}
+
+.creatorButton {
+    text-align: center;
+    padding-top: 25px;
+}
+
+.creatorButton button {
+    background-color: #98c9a3;
+    color: black;
+    padding: 15px 25px; 
+    text-decoration: none; 
+    display: inline-block;
+    border: none; 
+    border-radius: 8px;
+}
+ .articleGrid {
+    display: flex;
+    gap: 1rem;
+    padding: 16px;
+    flex-wrap: wrap;
+        
+}
+
+.articleCard {
+    box-shadow: 0 4px 8px 0 #d7b9d5;
+    border-radius: 10px;
+    display: flex;
+    flex: 1; 
+    flex-direction: column;
+    padding: 16px;
+
+}
+
+.articleCard:hover {
+    box-shadow: 0 8px 16px 0 #d7b9d5;
+}
+
+

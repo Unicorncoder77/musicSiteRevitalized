@@ -1,18 +1,12 @@
 from django.shortcuts import render, redirect
-from django.contrib import messages
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import AuthenticationForm
-from .forms import UserRegisterForm, UserLoginForm
-from django.core.mail import send_mail
-from django.core.mail import EmailMultiAlternatives
-from django.template.loader import get_template
-from django.template import Context
-from django.http import HttpResponse
-from django.template import loader
+from .forms import UserRegisterForm, UpdateUserForm, UpdateProfileForm
 from django.contrib.auth import login, authenticate, logout
 from . import forms
-
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.contrib.auth import get_user_model
+from .models import Profile 
 
 # Create your views here.
 
@@ -56,15 +50,49 @@ def loginView(request):
     if (request.method == 'POST'):
         form = forms.UserLoginForm(request.POST)
         if (form.is_valid()):
-            user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'],)
+            user = authenticate(request, username=form.cleaned_data['username'], password=form.cleaned_data['password'])
+            print(form.cleaned_data)
+            
             if (user is not None):
+                print("Authenticated successfully")
                 login(request, user)
+                
                 return redirect('userHome')
                 #message = f'Hello {user.username}! Welcome back!'
             else:
+                print("Authentication failed")
+                print("User: ", user.username)
+                print("INPUT: ", form.cleaned_data['username'], form.cleaned_data['password'])
                 return render(request, 'login.html', context={'form': form})
+            
     return render(request, 'login.html', context={'form': form})
 
 def logoutUser(request):
     logout(request)
     return redirect('login')
+
+'''@login_required
+def userProfile(request):
+    return render(request, 'profile.html')'''
+
+@login_required
+def profile(request):
+    context = {}
+    #profile, created = Profile.objects.get_or_create(user=request.user)
+    #userForm = UpdateUserForm(instance=request.user)
+    #profileForm = UpdateProfileForm(instance=request.user)
+    user = get_user_model()
+    if (request.method == 'POST'):
+        userForm = UpdateUserForm(request.POST, instance=request.user)
+        profileForm = UpdateProfileForm(request.POST, request.FILES, instance=request.user.profile)
+
+        if (userForm.is_valid() and profileForm.is_valid()):
+            userForm.save()
+            profileForm.save()
+            messages.success(request, "Your profile has been updated!")
+            return redirect(to='profile')
+    else:
+        userForm = UpdateUserForm(instance=request.user)
+        profileForm = UpdateProfileForm(instance=request.user.profile)
+
+    return render(request, 'profile.html', {'userForm': userForm, 'profileForm': profileForm})

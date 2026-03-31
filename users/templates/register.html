@@ -5,23 +5,35 @@ Sign Up
 {% block content %}
 {% include "nav.html" %}
 
-<div>
-    
-
+<div class="formDiv">
     
     <form method="POST">
         {% csrf_token %}
         
             {{ form.as_p }}
-
-            <button class="submitBtn" type="submit">Sign Up</button>
+            <input type="checkbox" onclick="togglePassword()"> Show Password
+            <div class="btnonly">
+                <button class="submitBtn" type="submit">Sign Up</button>
+            </div>
+            
+            
         
         
     </form>
 </div>
+<script>
+    function togglePassword() {
+        var passField = document.getElementById("password");
+        if (passField.type === "password") {
+            passField.type = "text";
+        }
+        else {
+            passField.type = "password";
+        }
+    }
+</script>
 
-{{ userForm.errors }}
-{{ passForm.errors }}
+
 
 <!--<form action="#" method="post">
    {% csrf_token %}

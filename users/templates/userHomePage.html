@@ -1,16 +1,39 @@
 {% extends "master.html" %}
 {% block title %}
-Home 
+{{ request.user.username}}'s Profile
 {% endblock %}
 {% block content %}
 {% include "nav.html" %}
+<style>
+    h1 {
+        text-align: center;
+    }
+</style>
 
-<h1> Welcome {{ request.user.username }} !</h1>
+<h1> Welcome Back, {{ request.user.username }} !</h1>
 
 {% if user.is_authenticated %}
-<p> You are logged in.</p>
-{% else %}
-<p> You are not logged in</p>
+<h1> Check out these new articles!</h1>
+<div class="articleGrid">
+    <div class="articleCard">
+        {% load static %}
+        <img src="{% static 'mariahStockPhoto.jpg' %}" alt="MariahStockPhoto" style="width:30%">
+        <h1>Why Mariah Carey has been characterized as one of musics greatest divas</h1>
+        <p> In this article ...</p>
+    </div>
+
+    <div class="articleCard">
+        <img src="{% static 'britneyStockPhoto.jpg' %}" alt="BritneyStockPhoto" style="width:30%">
+        <h1>The fall of a pop princess: How a Conversatorship killed her career</h1>
+        <p> This article will ...</p>
+    </div>
+
+</div>
+
+
+
+
+
 {% endif %}
 
 {% endblock %}

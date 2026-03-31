@@ -1,0 +1,89 @@
+{% extends "master.html" %}
+
+{% block title %}
+{{ request.user.username}}'s Profile
+{% endblock %}
+
+{% block content %}
+{% include "nav.html" %}
+<style>
+    .profilePic {
+        text-align: center;
+    }
+
+    .formContainer {
+        display: grid;
+        justify-content: center;
+        align-items: center;
+        margin: auto;
+        padding: 8px;
+     
+    }
+
+    .formContainer label {
+        padding: 10px; 
+    }
+
+    .btns {
+        text-align: center;
+    }
+    .btns button{
+        text-align: center;
+        padding: 15px 20px;
+        border: none;
+        text-decoration: none;
+        background-color: #98c9a3;
+        color: black;
+
+    }
+
+    
+    
+
+</style>
+<div class="profilePic">
+    <img src="{{ request.user.profile.avatar.url}}" style="cursor: pointer;"/>
+    <!--{% if request.user.profile.avatar %}
+        
+    {% else %}
+        <p> Add a profile photo! </p>
+    {% endif %}-->
+
+</div>
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    <!--{{ userForm.as_p }}
+    {{ profileForm.as_p }}-->
+   
+
+    <div class="formContainer">
+
+       
+            <label> Change your Username: </label>
+            {{ userForm.username}}
+            <label> Update your Email: </label>
+            {{ userForm.email }}
+      
+        
+      
+            <label> Change your Avatar </label>
+            {{ profileForm.avatar}}
+            <label> Update your bio: </label>
+            {{ profileForm.bio }}
+
+  
+        
+    </div>
+
+    <div class="btns">
+        <button type="submit"> Save Changes </button>
+        <button type="reset"> Reset </button>
+    </div>
+    
+</form>
+
+
+
+{% endblock %}
