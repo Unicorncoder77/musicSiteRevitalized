@@ -50,6 +50,8 @@ class Review(models.Model):
     category_type = models.ForeignKey(Category, on_delete=models.CASCADE, null=False)
     publication_date = models.DateField(auto_now_add=True, null=False)
 
+  # create a top reviews to make it easier to filter out (newest three or best rated perhaps)
+
 class Creator(models.Model):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
@@ -63,6 +65,16 @@ class Article(models.Model):
     creator_id = models.ForeignKey(Creator, on_delete=models.CASCADE, null=False)
     publication_date = models.DateField(auto_now_add=True, null=False)
     category_type = models.ForeignKey(Category, on_delete=models.CASCADE, null=False)
+    article_cover = models.ImageField(default='stockAvatar.jpg', upload_to='cover_art')
+
+    def save(self, *args, **kwargs):
+        super().save()
+        img = Image.open(self.avatar.path)
+
+        if (img.height > 100 or img.width > 100):
+            newImg = (100, 100)
+            img.thumbnail(newImg)
+            img.save(self.avatar.path)
 
 
 
