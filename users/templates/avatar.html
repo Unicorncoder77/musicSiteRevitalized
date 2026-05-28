@@ -1,0 +1,39 @@
+{% extends "master.html" %}
+{% block title %}
+{{ user.username }}'s Profile
+{% endblock %}
+{% block content %}
+{% include "nav.html" %}
+
+<style>
+    .profileContainer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+</style>
+
+<div class="profileContainer">
+    <div class="profileInfo">
+        <h1> Your Public Profile </h1>
+        <h2> {{ user.username }}</h2>
+
+        <img src="{{ user.profile.avatar.url }}" style="cursor: pointer;"/>
+
+        <h2> Tell me about yourself </h2>
+        <p> {{ user.profile.bio }}</p>
+
+        <h2> Your Reviews </h2>
+        <p> ... </p>
+
+        <h2> Your Public Playlists </h2>
+        <p> ... </p>
+
+    </div>
+    
+</div>
+
+
+
+{% endblock %}

@@ -9,5 +9,9 @@ urlpatterns = [
     path('home/', views.userHome, name='userHome'),
     path('logout/', views.logoutUser, name='logout'),
     path('profile/', views.profile, name='profile'),
+    path('creatorLogin/', views.registerCreator, name='creatorLogin'),
+    path('settings/', views.settings, name='settings'),
+    path('avatar/', views.avatar, name='avatar'),
+    #path('creatorLogin/', views.loginCreator, name='creatorLogin'),
    
 ]

@@ -9,9 +9,12 @@ Sign Up
     
     <form method="POST">
         {% csrf_token %}
-        
+            <h2> Create your Account </h2>
             {{ form.as_p }}
-            <input type="checkbox" onclick="togglePassword()"> Show Password
+            <div class="checkboxArea">
+                <input type="checkbox" onclick="togglePassword()"> Show Password
+            </div>
+            
             <div class="btnonly">
                 <button class="submitBtn" type="submit">Sign Up</button>
             </div>

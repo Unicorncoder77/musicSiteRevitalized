@@ -1,0 +1,168 @@
+{% extends "master.html" %}
+{% block title %}
+{{ user.username }}'s Settings 
+{% endblock %}
+{% block content %}
+{% include "nav.html" %}
+
+<style>
+    .menu {
+        width: 90%;
+        margin-top: 80px;
+        max-width: 320px;
+        background-color: #ffc2d1;
+        transition: background-color .30s ease;
+        border-radius: 15px;
+       
+    }
+
+    .menuContainer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+
+    .menuHeader {
+        padding: 1rem;
+    }
+
+    .menuHeaderTitle {
+        font-size: 1.2rem;
+        color: black;
+        font-weight: 700;
+    }
+
+    .themeSwitcher input {
+        display: none;
+    }
+
+    .themeSwitcher {
+        position: relative;
+        background-color: #ffc2d1;
+        border-radius: 10px;
+        display: flex;
+        padding: 0 3px;
+    }
+
+    .themeSwitcher label {
+        position: relative;
+        z-index: 2;
+        width: calc(100% / 3);
+        color: black;
+    }
+
+    .themeSwitcher label span {
+        padding: 8px 0; 
+        display: flex;
+        justify-content: center;
+        font-weight: 600;
+        opacity: 0.8;
+    }
+
+    .themeSwitcher label span:hover {
+        opacity: 1;
+        cursor: pointer;
+    }
+
+    .themeSwitcher .slider {
+        position: absolute;
+        z-index: 1;
+        width: calc((100% - 6px) / 3);
+        top: 3px;
+        transform: translateX(-110%);
+        bottom: 3px;
+        border-radius: 8px;
+        transition: .30s ease, transform 0.25s ease-out;
+        background-color: #bde0fe;
+    }
+
+    .themeSwitcher input:nth-of-type(1):checked ~ .slider {
+        transform: translateX(0);
+    }
+
+    .themeSwitcher input:nth-of-type(2):checked ~ .slider {
+        transform: translateX(100%);
+    }
+
+    .themeSwitcher input:nth-of-type(3):checked ~ .slider {
+        transform: translateX(200%);
+    }
+
+    .menuBody {
+        padding: 1rem;
+        border-top: 1px solid #ffc2d1;
+        transition: border-color .30s ease;
+    }
+
+    .menuBody a {
+        text-decoration: none;
+        color: inherit;
+        display: flex;
+        padding: 0.6rem 0.5rem;
+        border-radius: 4px;
+        font-weight: 500;
+        transition: .30s ease;
+    }
+
+    .menuBody a:hover {
+        background-color: #ffc2d1;
+    }
+
+    ion-icon {
+        margin-right: 5px;
+        font-size: 20px;
+        margin-top: 2px;
+    }
+</style>
+<div class="menuContainer">
+
+
+<div class="menu">
+    <div class="menuHeader">
+        <h2 class="menuHeaderTitle">Theme</h2>
+        <div class="themeSwitcher">
+            <input type="radio" id="lightTheme" name="themes" checked />
+            <label for="lightTheme">
+                <span>
+                    <ion-icon name="sunny"></ion-icon> Light
+                </span>
+            </label>
+            <input type="radio" id="darkTheme" name="themes" />
+            <label for="darkTheme">
+                <span>
+                    <ion-icon name="moon"></ion-icon> Dark
+                </span>
+            </label>
+            <span class="slider"></span>
+        </div>
+    </div>
+    <div class="menuBody">
+        <a href="http://127.0.0.1:8000/profile"><ion-icon name="settings-outline"></ion-icon>Account Settings</a>
+        <a href="#"><ion-icon name="chatbox-ellipses-outline"></ion-icon>Give Feedback</a>
+        <a href="#"><ion-icon name="information-circle-outline"></ion-icon>About</a>
+        <a href="#"><ion-icon name="mail-outline"></ion-icon>Support</a>
+    </div>
+</div>
+</div>
+
+<script>
+    var html = document.getElementsByTagName('html');
+    var radios = document.getElementsByName('themes');
+
+    for (i = 0; i < radios.length; i++) {
+        radios[i].addEventListener('change', function() {
+            html[0].classList.remove(html[0].classList.item(0));
+            html[0].classList.add(this.id);
+        });
+    }
+</script>
+
+
+<!--<div class="profileCust">
+    <h1> Customize your Profile </h1>
+    <button><a href="http://127.0.0.1:8000/profile"> Profile </a></button>
+</div>-->
+
+
+{% endblock %}

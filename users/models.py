@@ -58,6 +58,12 @@ class Creator(models.Model):
     email = models.EmailField(max_length=255, unique=True, null=False)
     pen_name = models.CharField(max_length=255)
     joined_date = models.DateField(auto_now_add=True, null=False)
+    password = models.CharField(max_length=255, null=False)
+    def save(self, *args, **kwargs):
+        # hash if not hashed already
+        if not self.password.startswith('pbkdf2_'):
+            self.password = make_password(self.password)
+        super().save(*args, **kwargs)
 
 class Article(models.Model):
     article_title = models.CharField(max_length=255)

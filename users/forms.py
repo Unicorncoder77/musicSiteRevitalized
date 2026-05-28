@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
-from .models import User, Profile
+from .models import User, Profile, Creator, Article, Review
 from django.forms import ModelForm
 from django.contrib.auth.hashers import make_password
 
@@ -61,6 +61,23 @@ class UpdateProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['avatar', 'bio']
+
+# for the creator of articles
+class CreatorRegistrationForm(forms.ModelForm):
+    first_name = forms.CharField(label="fName", max_length=30, widget=forms.TextInput (attrs={'class' : 'fName ele'}))
+    last_name = forms.CharField(label="lName", max_length=30, widget=forms.TextInput (attrs={'class': 'lName ele'}))
+    email = forms.EmailField(label="Email", widget=forms.TextInput (attrs={'class' : 'email ele'}))
+    pen_name = forms.CharField(label="penName", max_length=30, widget=forms.TextInput (attrs={'class' : 'pName ele'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'id': 'password' , 'class' : 'password ele'}))
+
+    class Meta:
+        model = Creator
+        fields = ['first_name', 'last_name', 'email', 'pen_name', 'password']
+
+class CreatorLoginForm(forms.Form):
+    pen_name = forms.CharField(max_length=30, widget=forms.TextInput(attrs={'class' : 'pName ele'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'id': 'password', 'class' : 'password ele'}))
+
 
     
     
