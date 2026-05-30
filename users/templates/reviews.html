@@ -1,0 +1,53 @@
+{% extends "master.html" %}
+{% block title %}
+{{ user.username }}'s Settings 
+{% endblock %}
+{% block content %}
+{% include "nav.html" %}
+<style>
+    .songCard a {
+        text-decoration: none;
+        color: black;
+    }
+
+    .reviewCard a {
+        text-decoration: none;
+        color: black;
+    }
+</style>
+
+<form method="POST">
+    <select name="category">
+        <option value="">All</option>
+        {% for category in categories %}
+            <option value="{{ category.category_name }}">
+                {{ category.category_name }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <button type="submit"> Ok </button>
+</form>
+
+{% for song in songs %}
+    <div class="songGrid">
+        <div class="songCard">
+            <a href="{% url 'songDetail' song.id %}">
+                {{ song.title }} by {{ song.artist }}
+            </a>
+        </div>
+    </div>
+    <div class="reviewCard">
+        <a href="{% url 'createReview' song.id %}">
+            Review {{ song.title }}
+        </a>
+    </div>
+    
+{% endfor %}
+
+<h3> Don't see a song?</h3>
+<a href="{% url 'createSong' %}">
+    Create one
+</a>
+
+{% endblock %}

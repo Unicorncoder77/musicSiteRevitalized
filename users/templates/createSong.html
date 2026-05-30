@@ -1,0 +1,19 @@
+{% extends "master.html" %}
+{% block title %}
+{{ user.username }}'s Settings 
+{% endblock %}
+{% block content %}
+{% include "nav.html" %}
+
+<div class="reviewDiv">
+    <h2> Send in your song to review </h2>
+    <form method="POST">
+        {% csrf_token %}
+            
+        {{ form.as_p }}
+
+        <button type="submit"> Submit </button>
+    </form>
+</div>
+
+{% endblock %}

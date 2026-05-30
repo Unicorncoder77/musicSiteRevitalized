@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
-from .models import User, Profile, Creator, Article, Review
+from .models import User, Profile, Creator, Article, Review, Song, Category
 from django.forms import ModelForm
 from django.contrib.auth.hashers import make_password
 
@@ -77,6 +77,21 @@ class CreatorRegistrationForm(forms.ModelForm):
 class CreatorLoginForm(forms.Form):
     pen_name = forms.CharField(max_length=30, widget=forms.TextInput(attrs={'class' : 'pName ele'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'id': 'password', 'class' : 'password ele'}))
+
+class SongForm(forms.ModelForm):
+    title = forms.CharField(label="Song Title", max_length=30, widget=forms.TextInput)
+    artist = forms.CharField(label="Song Artist",max_length=30,  widget=forms.TextInput)
+    category_type = forms.ModelChoiceField(queryset=Category.objects.all(), empty_label="Select a Category")
+    collab = forms.BooleanField(label="collab", required=False)
+    class Meta:
+        model = Song
+        fields = ['title', 'artist', 'category_type', 'collab']
+
+class ReviewForm(forms.ModelForm):
+    
+    class Meta:
+        model = Review
+        fields = ['review_title', 'review', 'stars']
 
 
     

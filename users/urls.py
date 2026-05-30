@@ -12,6 +12,10 @@ urlpatterns = [
     path('creatorLogin/', views.registerCreator, name='creatorLogin'),
     path('settings/', views.settings, name='settings'),
     path('avatar/', views.avatar, name='avatar'),
+    path("songs/new/", views.createSong, name='createSong'),
+    path("songs/<int:id>/", views.songDetail, name='songDetail'),
+    path("songs/<int:song_id>/review/", views.createReview, name='createReview'),
+    path('reviews/', views.reviews, name='reviews'),
     #path('creatorLogin/', views.loginCreator, name='creatorLogin'),
    
 ]

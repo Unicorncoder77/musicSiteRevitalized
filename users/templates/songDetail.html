@@ -1,0 +1,43 @@
+{% extends "master.html" %}
+{% block title %}
+{{ user.username }}'s Settings 
+{% endblock %}
+{% block content %}
+{% include "nav.html" %}
+
+<style>
+    .songHeader {
+        text-align: center; 
+    }
+    .songHeader a {
+        text-decoration: none;
+    }
+</style>
+
+<div class="songHeader">
+    <h1> {{ song.title }}</h1>
+    <h2> Released by: {{ song.artist }}</h2>
+
+    <a href="{% url 'createReview' song.id %}"> Review this song !</a>
+    <hr>
+</div>
+
+
+{% for review in reviews %}
+<h3> {{ review.review_title }}</h3>
+{% for i in "12345" %}
+    {% if forloop.counter <= review.stars %}
+        <i class="fa fa-star" aria-hidden="true"></i>
+    {% else %}
+        <i class="fa fa-star-o" aria-hidden="true"></i>
+    {% endif %}
+    {% endfor %}
+<p> {{ review.review }}</p>
+<p> By: {{ review.author }}</p>
+
+{% empty %}
+<p> No reviews yet. Be the first !</p>
+
+{% endfor %}
+
+{% endblock %}

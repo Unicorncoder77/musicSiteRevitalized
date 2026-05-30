@@ -2,6 +2,7 @@ from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth.models import AbstractUser
+from django.utils import timezone
 from PIL import Image
 
 
@@ -41,14 +42,24 @@ class Profile(models.Model):
 class Category(models.Model):
    category_name = models.CharField(max_length=255, null=False)
 
+   def __str__(self):
+       return self.category_name
+
+class Song(models.Model):
+    title = models.CharField(max_length=40)
+    category_type = models.ForeignKey(Category, on_delete=models.CASCADE, null=False)
+    artist = models.CharField(max_length=60)
+    collab = models.BooleanField(null=False)
+
+
 class Review(models.Model):
     review = models.TextField()
-    stars = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
+    stars = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)], default=0)
     review_title = models.CharField(max_length=255, null=False)
     # on_delete = cascade allows for everything from the user or the category to be deleted 
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
-    category_type = models.ForeignKey(Category, on_delete=models.CASCADE, null=False)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
     publication_date = models.DateField(auto_now_add=True, null=False)
+    song = models.ForeignKey(Song, on_delete=models.CASCADE, null=False, related_name="reviews")
 
   # create a top reviews to make it easier to filter out (newest three or best rated perhaps)
 

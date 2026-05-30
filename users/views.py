@@ -1,12 +1,12 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
-from .forms import UserRegisterForm, UpdateUserForm, UpdateProfileForm, CreatorRegistrationForm, CreatorLoginForm
+from .forms import *
 from django.contrib.auth import login, authenticate, logout
 from . import forms
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth import get_user_model
-from .models import Profile 
+from .models import Profile, Song, Review, Category 
 
 # Create your views here.
 
@@ -14,6 +14,7 @@ def home(request):
     #template = loader.get_template('index.html')
     return render(request, 'index.html')
 
+@login_required
 def userHome(request):
     return render(request, 'userHomePage.html')
 
@@ -147,3 +148,59 @@ def loginCreator(request):
                 return render(request, 'creatorLogin.html', context={'form': form})
             
     return render(request, 'creatorLogin.html', context={'form': form})
+
+
+@login_required
+def createSong(request):
+    if (request.method == 'POST'):
+        form = SongForm(request.POST)
+        if (form.is_valid()):
+            song = form.save()
+            return redirect("songDetail", song.id)
+        
+    else:
+        form = SongForm()
+
+    return render(request, "createSong.html", {"form": form})
+
+def songDetail(request, id):
+    song = get_object_or_404(Song, id=id)
+
+    reviews = song.reviews.all()
+
+    return render(request, "songDetail.html", {"song": song, "reviews": reviews})
+
+@login_required
+def createReview(request, song_id):
+    song = get_object_or_404(Song, id=song_id)
+
+    if (request.method == 'POST'):
+        form = ReviewForm(request.POST)
+        if (form.is_valid()):
+            review = form.save(commit=False)
+
+            review.author = request.user
+            review.song = song
+            review.save()
+
+            return redirect("songDetail", id=song.id) 
+    else:
+        form = ReviewForm()
+
+    context = {"song": song, "form":form}
+
+    return render(request, "createReview.html", context)
+
+def reviews(request):
+    category = request.POST.get("category")
+    reviews = Review.objects.select_related("song", "author").order_by("publication_date")
+    songs = Song.objects.all()
+
+    if (category):
+        reviews = reviews.filter(song_category_type_id=category)
+
+    categories = Category.objects.all()
+
+    context = {"songs" : songs, "reviews": reviews, "categories": categories}
+
+    return render(request, "reviews.html", context)
