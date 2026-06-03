@@ -5,15 +5,54 @@
 {% block content %}
 {% include "nav.html" %}
 <style>
-    .songCard a {
-        text-decoration: none;
-        color: black;
+    .songGrid {
+        display: grid;
+        gap: 5px;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        padding: 10px;
+        justify-content: center;
     }
 
-    .reviewCard a {
-        text-decoration: none;
-        color: black;
+    .songCard {
+        border-radius: 12px;
+        padding: 20px;
+        background: #ff8fab;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        transition: all .2s ease;
+       
     }
+
+    .songCard:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .songCard h3 {
+        margin-bottom: 8px;
+        font-size: 20px;
+    }
+
+    .songCard p {
+        color: black;
+       
+    }
+
+    .cardLinks {
+        display: flex;
+        gap: 10px;
+    }
+
+    .cardLinks a {
+        text-decoration: none;
+        background-color: #ffc2d1;
+        color: black;
+        padding: 10px 14px;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: .2s;
+    }
+
+
 </style>
 
 <form method="POST">
@@ -28,26 +67,40 @@
 
     <button type="submit"> Ok </button>
 </form>
+<div class="songGrid">
+
 
 {% for song in songs %}
-    <div class="songGrid">
+    
         <div class="songCard">
-            <a href="{% url 'songDetail' song.id %}">
-                {{ song.title }} by {{ song.artist }}
-            </a>
+            <h3> {{ song.title }}</h3>
+            <p> by {{ song.artist }}</p>
+            <div class="cardLinks">
+                <a href="{% url 'songDetail' song.id %}">
+                    Check out the Song!
+                </a>
+
+                <a href="{% url 'createReview' song.id %}">
+                    Check out this review!
+                </a>
+            </div>
+            
         </div>
-    </div>
-    <div class="reviewCard">
+    <!--<div class="reviewCard">
         <a href="{% url 'createReview' song.id %}">
             Review {{ song.title }}
         </a>
-    </div>
+    </div>-->
     
 {% endfor %}
+</div>
 
 <h3> Don't see a song?</h3>
-<a href="{% url 'createSong' %}">
-    Create one
-</a>
+<div class="songLink">
+    <a href="{% url 'createSong' %}">
+        Send it in! 
+    </a>
+</div>
+
 
 {% endblock %}
