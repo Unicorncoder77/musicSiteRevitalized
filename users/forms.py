@@ -88,11 +88,12 @@ class SongForm(forms.ModelForm):
         fields = ['title', 'artist', 'category_type', 'collab']
 
 class ReviewForm(forms.ModelForm):
-    
+    review_title = forms.CharField(label="Review Title", max_length=30, widget=forms.TextInput)
+    review = forms.CharField(label="Review", widget=forms.TextInput)
     class Meta:
         model = Review
         fields = ['review_title', 'review', 'stars']
-
+      
 
     
     

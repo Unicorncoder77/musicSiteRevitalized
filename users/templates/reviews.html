@@ -1,6 +1,6 @@
 {% extends "master.html" %}
 {% block title %}
-{{ user.username }}'s Settings 
+Reviews
 {% endblock %}
 {% block content %}
 {% include "nav.html" %}
@@ -37,12 +37,12 @@
        
     }
 
-    .cardLinks {
+    .cardLinks, .songLink {
         display: flex;
         gap: 10px;
     }
 
-    .cardLinks a {
+    .cardLinks a, .songLink a {
         text-decoration: none;
         background-color: #ffc2d1;
         color: black;
@@ -51,6 +51,20 @@
         font-weight: 600;
         transition: .2s;
     }
+
+    .songLink a {
+        background-color: #ff8fab;
+    }
+
+    .fa-star {
+        color: lightgray;
+    }
+
+    .checked {
+        color: #9c0cb4;
+    }
+
+   
 
 
 </style>
@@ -75,22 +89,25 @@
         <div class="songCard">
             <h3> {{ song.title }}</h3>
             <p> by {{ song.artist }}</p>
+            <i class="fa fa-star {% if song.avgReview > 0 %} checked {% endif %}" aria-hidden="true"></i>
+            <i class="fa fa-star {% if song.avgReview > 1 %} checked {% endif %}" aria-hidden="true"></i>
+            <i class="fa fa-star {% if song.avgReview > 2 %} checked {% endif %}" aria-hidden="true"></i>
+            <i class="fa fa-star {% if song.avgReview > 3 %} checked {% endif %}" aria-hidden="true"></i>
+            <i class="fa fa-star {% if song.avgReview > 4 %} checked {% endif %}" aria-hidden="true"></i>
+           
+
             <div class="cardLinks">
                 <a href="{% url 'songDetail' song.id %}">
-                    Check out the Song!
+                    Check out the reviews!
                 </a>
 
                 <a href="{% url 'createReview' song.id %}">
-                    Check out this review!
+                    Create a review for yourself!
                 </a>
             </div>
             
         </div>
-    <!--<div class="reviewCard">
-        <a href="{% url 'createReview' song.id %}">
-            Review {{ song.title }}
-        </a>
-    </div>-->
+  
     
 {% endfor %}
 </div>

@@ -204,3 +204,11 @@ def reviews(request):
     context = {"songs" : songs, "reviews": reviews, "categories": categories}
 
     return render(request, "reviews.html", context)
+
+@login_required
+def yourReviews(request):
+   reviews = Review.objects.filter(author=request.user)
+
+   context = {"reviews" : reviews}
+
+   return render(request, "yourReviews.html", context)

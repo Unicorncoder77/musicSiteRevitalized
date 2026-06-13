@@ -4,6 +4,7 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
 from PIL import Image
+from django.db.models import Avg
 
 
 # Create your models here.
@@ -51,6 +52,11 @@ class Song(models.Model):
     artist = models.CharField(max_length=60)
     collab = models.BooleanField(null=False)
 
+    # @Property is a decorator 
+    @property
+    def avgReview(self)->float:
+        return Review.objects.filter(song=self).aggregate(Avg("stars"))["stars__avg"] or 0
+
 
 class Review(models.Model):
     review = models.TextField()
@@ -60,6 +66,8 @@ class Review(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
     publication_date = models.DateField(auto_now_add=True, null=False)
     song = models.ForeignKey(Song, on_delete=models.CASCADE, null=False, related_name="reviews")
+
+  
 
   # create a top reviews to make it easier to filter out (newest three or best rated perhaps)
 

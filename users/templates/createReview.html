@@ -5,9 +5,11 @@
 {% block content %}
 {% include "nav.html" %}
 
+
+
 <div class="reviewDiv">
-    <h2> Send in your review for "{{ song.title }}" </h2>
-    <h3>{{ song.artist }}</h3>
+    <h2> {{ song.title }} by {{ song.artist }} </h2>
+   
     <form method="POST">
         {% csrf_token %}
             

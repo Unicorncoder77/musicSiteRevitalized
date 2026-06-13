@@ -1,0 +1,27 @@
+{% extends "master.html" %}
+{% block title %}
+{{ user.username }}'s Reviews
+{% endblock %}
+{% block content %}
+{% include "nav.html" %}
+
+
+
+{% for review in reviews %}
+    <div class="songCard"> 
+        <h3> {{ review.song.title }}</h3>
+        <h3> {{ review.review_title }}</h3>
+        {% for i in "12345" %}
+        {% if forloop.counter <= review.stars %}
+            <i class="fa fa-star" aria-hidden="true"></i>
+        {% else %}
+            <i class="fa fa-star-o" aria-hidden="true"></i>
+        {% endif %}
+        {% endfor %}
+    <p> {{ review.review }}</p>
+    
+    </div>
+
+{% endfor %}
+
+{% endblock %}

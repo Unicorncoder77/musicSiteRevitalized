@@ -13,8 +13,9 @@ Nav Bar
     
         {% if user.is_authenticated %}
             <li><a href="http://127.0.0.1:8000/home">Your HomePage</a></li>
+            <li><a href="http://127.0.0.1:8000/userReviews">Your Reviews </a></li>
             <!--<li><a href="http://127.0.0.1:8000/profile"> Your Profile </a></li>-->
-            <li><a href="#">Articles</a></li>
+            <!--<li><a href="#">Articles</a></li>-->
             <li><a href="http://127.0.0.1:8000/reviews">Reviews</a></li>
             <li><a href="http://127.0.0.1:8000/logout">Logout</a></li>
             <div class="avatarContainer">
@@ -25,7 +26,7 @@ Nav Bar
             </div>
         {% else %}
             <li><a href="http://127.0.0.1:8000">Home</a></li>
-            <li><a href="#">Articles</a></li>
+            <!--<li><a href="#">Articles</a></li>-->
             <li><a href="http://127.0.0.1:8000/reviews">Reviews</a></li>
             <li><a href="http://127.0.0.1:8000/register">Register</a></li>
             <li><a href="http://127.0.0.1:8000/login">Login</a></li>
