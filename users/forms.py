@@ -89,10 +89,21 @@ class SongForm(forms.ModelForm):
 
 class ReviewForm(forms.ModelForm):
     review_title = forms.CharField(label="Review Title", max_length=30, widget=forms.TextInput)
-    review = forms.CharField(label="Review", widget=forms.TextInput)
+    review = forms.CharField(label="Review", widget=forms.Textarea)
     class Meta:
         model = Review
         fields = ['review_title', 'review', 'stars']
+        widgets = {
+            "stars": forms.RadioSelect(
+                choices=[
+                    (1, "1"),
+                    (2, "2"),
+                    (3, "3"),
+                    (4, "4"),
+                    (5, "5"),
+                    ]
+            )
+        }
       
 
     

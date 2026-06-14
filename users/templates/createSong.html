@@ -1,16 +1,71 @@
 {% extends "master.html" %}
 {% block title %}
-{{ user.username }}'s Settings 
+Send in a Song
 {% endblock %}
 {% block content %}
 {% include "nav.html" %}
+
+<style>
+    .reviewDiv {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        max-width: 700px; 
+        margin: 50px auto;
+        padding: 30px;
+        border-radius: 15px;
+        background: #ffc2d1;
+    }
+
+    .reviewDiv form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        background-color: #ffc2d1;
+        gap: 15px;
+
+    }
+
+    .reviewDiv input, .reviewDiv select{
+        width: 80%;
+        padding: 12px;
+        margin-bottom: 15px; 
+        border-radius: 8px;
+        border: none;
+        text-align: center
+    }
+
+    .reviewDiv input[type="checkbox"] {
+        width: 100%;
+        accent-color: #ff8fab;
+    }
+
+    .reviewDiv button {
+        padding: 15px; 
+        border: none;
+        border-radius: 8px;
+        background-color: #fb6f92;
+    }
+</style>
 
 <div class="reviewDiv">
     <h2> Send in your song to review </h2>
     <form method="POST">
         {% csrf_token %}
-            
-        {{ form.as_p }}
+
+        {{ form.title.label }}
+        {{ form.title }}
+
+        {{ form.artist.label }}
+        {{ form.artist }}
+
+        {{ form.category_type.label }}
+        {{ form.category_type }}
+
+        {{ form.collab.label }}
+        {{ form.collab }}
 
         <button type="submit"> Submit </button>
     </form>

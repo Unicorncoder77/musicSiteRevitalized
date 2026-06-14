@@ -17,6 +17,7 @@ urlpatterns = [
     path("songs/<int:song_id>/review/", views.createReview, name='createReview'),
     path('reviews/', views.reviews, name='reviews'),
     path('userReviews/', views.yourReviews, name='yourReviews'),
+    path('pleaseLogin/', views.pleaseLogin, name='pleaseLogin'),
     #path('creatorLogin/', views.loginCreator, name='creatorLogin'),
    
 ]

@@ -5,12 +5,33 @@
 {% block content %}
 {% include "nav.html" %}
 
+<style>
+    .songGrid {
+        display: grid;
+        gap: 5px;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        padding: 10px;
+        justify-content: center;
+    }
+
+    .songCard {
+        border-radius: 12px;
+        padding: 20px;
+       
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        transition: all .2s ease;
+    }
+
+</style>
+
+
+<div class="songGrid">
 
 
 {% for review in reviews %}
     <div class="songCard"> 
-        <h3> {{ review.song.title }}</h3>
-        <h3> {{ review.review_title }}</h3>
+        <h3> Song: {{ review.song.title }}</h3>
+        <h3> Review Title: {{ review.review_title }}</h3>
         {% for i in "12345" %}
         {% if forloop.counter <= review.stars %}
             <i class="fa fa-star" aria-hidden="true"></i>
@@ -23,5 +44,6 @@
     </div>
 
 {% endfor %}
+</div>
 
 {% endblock %}

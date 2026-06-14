@@ -1,22 +1,124 @@
 {% extends "master.html" %}
 {% block title %}
-{{ user.username }}'s Settings 
+Create a review
 {% endblock %}
 {% block content %}
 {% include "nav.html" %}
+
+<style> 
+    .star input {
+        display: none;
+    }
+
+    .starRating {
+        display: flex;
+        gap: 10px;
+        font-size: 35px;
+    }
+
+    .star i {
+        color: lightgray;
+        cursor: pointer;
+        transition: .2s;
+    }
+
+    .star input:checked + i {
+        color: #9c0cb4;
+    }
+
+    .reviewDiv {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        max-width: 700px;
+        margin: 50px auto;
+        border-radius: 15px;
+        background: #ffc2d1;
+    }
+
+    .reviewDiv button {
+        padding: 15px;
+        background-color: #fb6f92;
+        border: none;
+        border-radius: 5px;
+    }
+    
+
+    .reviewDiv h2 {
+        margin: 0 0 30px 0;
+    }
+
+   .reviewDiv form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    background-color: #ffc2d1;
+
+   }
+
+   .reviewDiv input, .reviewDiv textarea {
+    width: 80%;
+    padding: 12px;
+    margin-bottom: 15px; 
+    border-radius: 8px;
+    border: none;
+    text-align: center
+   }
+
+
+
+</style>
 
 
 
 <div class="reviewDiv">
     <h2> {{ song.title }} by {{ song.artist }} </h2>
    
+    
+    
     <form method="POST">
         {% csrf_token %}
-            
-        {{ form.as_p }}
+        
+        {{ form.review_title.label }}
+        {{ form.review_title }}
+
+        {{ form.review.label }}
+        {{ form.review}}
+
+        <label> Star Rating</label>
+        <div class="starRating">
+            {% for radio in form.stars %}
+            <label class="star">
+                {{ radio.tag }}
+                <i class="fa fa-star"></i>
+            </label>
+            {% endfor %}
+        </div>
+       
 
         <button type="submit"> Submit </button>
     </form>
+    </div>
 </div>
 
+<script> 
+    const radios = document.querySelectorAll('.star input');
+    const stars = document.querySelectorAll('.star i');
+
+    radios.forEach((radio, index)=> {
+        radio.addEventListener('change', function(){
+            stars.forEach((s, i)=> {
+                if(i<=index){
+                    s.style.color = '#9c0cb4';
+                }
+
+                else {
+                    s.style.color='lightgray';
+                }
+            });
+        });
+    });
+</script>
 {% endblock %}

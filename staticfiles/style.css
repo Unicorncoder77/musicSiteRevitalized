@@ -82,6 +82,9 @@ ul li a:hover {
     transform: translateY(-1px);
 }
 
+.formDiv {
+    margin: 0 0 20px 0; 
+}
 .formDiv input {
     margin: 10px;
     border: none; 
@@ -224,18 +227,19 @@ ul li a:hover {
     
 }
 
-.topNav .avatarBtn {
+.topNav .fa-user {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
+    width: 4.5rem;
+    height: 4.5rem;
     background-color: var(--nav-bar-color);
     color: black;
     text-decoration: none;
-    font-size: 16px;
+    font-size: 1.5rem;
     margin-left: 10px;
     cursor: pointer; 
     transition: 0.2s;
 }
+
 

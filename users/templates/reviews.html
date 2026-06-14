@@ -40,6 +40,7 @@ Reviews
     .cardLinks, .songLink {
         display: flex;
         gap: 10px;
+        justify-content: center; 
     }
 
     .cardLinks a, .songLink a {
@@ -54,6 +55,8 @@ Reviews
 
     .songLink a {
         background-color: #ff8fab;
+        justify-items: center;
+        display: flex; 
     }
 
     .fa-star {
@@ -64,16 +67,58 @@ Reviews
         color: #9c0cb4;
     }
 
+    .categorySort {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        max-width: 700px;
+        margin: 50px auto;
+        border-radius: 15px;
+    }
+
+    .categorySort select {
+        width: 50%;
+        padding: 12px;
+        margin-bottom: 15px; 
+        border-radius: 8px;
+        border: none;
+        text-align: center
+    }
+
+    .categorySort button {
+        border: none;
+        background-color: #ff8fab;
+        padding: 10px; 
+        border-radius: 6px;
+    }
+
+    .songLinkContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        margin: auto;
+        border-radius: 10px; 
+    }
+
+   
+
    
 
 
 </style>
 
-<form method="POST">
+<div class="categorySort">
+
+
+<form method="GET">
+    {% csrf_token %}
     <select name="category">
         <option value="">All</option>
         {% for category in categories %}
-            <option value="{{ category.category_name }}">
+            <option value="{{ category.id }}" {% if request.GET.category == category.id|stringformat:"s" %} selected {% endif %}>
                 {{ category.category_name }}
             </option>
         {% endfor %}
@@ -81,6 +126,7 @@ Reviews
 
     <button type="submit"> Ok </button>
 </form>
+</div>
 <div class="songGrid">
 
 
@@ -100,10 +146,16 @@ Reviews
                 <a href="{% url 'songDetail' song.id %}">
                     Check out the reviews!
                 </a>
-
+                {% if user.is_authenticated %}
                 <a href="{% url 'createReview' song.id %}">
                     Create a review for yourself!
                 </a>
+                {% else %}
+                <a href="{% url 'pleaseLogin' %}">
+                    Create a review for yourself!
+                </a>
+
+                {% endif %}
             </div>
             
         </div>
@@ -112,11 +164,15 @@ Reviews
 {% endfor %}
 </div>
 
+<div class="songLinkContainer">
+    
+
 <h3> Don't see a song?</h3>
 <div class="songLink">
     <a href="{% url 'createSong' %}">
         Send it in! 
     </a>
+</div>
 </div>
 
 

@@ -192,12 +192,12 @@ def createReview(request, song_id):
     return render(request, "createReview.html", context)
 
 def reviews(request):
-    category = request.POST.get("category")
+    category = request.GET.get("category")
     reviews = Review.objects.select_related("song", "author").order_by("publication_date")
     songs = Song.objects.all()
 
     if (category):
-        reviews = reviews.filter(song_category_type_id=category)
+        songs = songs.filter(category_type_id=category)
 
     categories = Category.objects.all()
 
@@ -212,3 +212,6 @@ def yourReviews(request):
    context = {"reviews" : reviews}
 
    return render(request, "yourReviews.html", context)
+
+def pleaseLogin(request):
+    return render(request, "pleaseLogin.html")

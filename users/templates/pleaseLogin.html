@@ -1,0 +1,12 @@
+{% extends "master.html" %}
+{% block title %}
+Reviews
+{% endblock %}
+{% block content %}
+{% include "nav.html" %}
+
+<h1> Sorry, you aren't logged in! </h1>
+<p> If you have an account <a href="{% url 'login' %}"> Login </a></p>
+<p> If you would like to create an account <a href="{% url 'register'}"> Register </a></p>
+
+{% endblock %}
