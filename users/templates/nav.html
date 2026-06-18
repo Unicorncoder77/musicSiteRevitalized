@@ -12,24 +12,24 @@ Nav Bar
     
     
         {% if user.is_authenticated %}
-            <li><a href="http://127.0.0.1:8000/home">Your HomePage</a></li>
-            <li><a href="http://127.0.0.1:8000/userReviews">Your Reviews </a></li>
+            <li><a href="{% url 'home' %}">Your HomePage</a></li>
+            <li><a href="{% url 'yourReviews' %}">Your Reviews </a></li>
             <!--<li><a href="http://127.0.0.1:8000/profile"> Your Profile </a></li>-->
             <!--<li><a href="#">Articles</a></li>-->
-            <li><a href="http://127.0.0.1:8000/reviews">Reviews</a></li>
-            <li><a href="http://127.0.0.1:8000/logout">Logout</a></li>
+            <li><a href="{% url 'reviews' %}">Reviews</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
             <div class="avatarContainer">
-                <a href="http://127.0.0.1:8000/avatar" class="avatarBtn"><i class="fa fa-user" aria-hidden="true"></i></a>
+                <a href="{% url 'avatar' %}" class="avatarBtn"><i class="fa fa-user" aria-hidden="true"></i></a>
             </div>
             <div class="settingsContainer">
-                <a href="http://127.0.0.1:8000/settings" class="settingsBtn"><i class="fa fa-cog"></i></a>
+                <a href="{% url 'settings' %}" class="settingsBtn"><i class="fa fa-cog"></i></a>
             </div>
         {% else %}
-            <li><a href="http://127.0.0.1:8000">Home</a></li>
+            <li><a href="{% url 'home' %}">Home</a></li>
             <!--<li><a href="#">Articles</a></li>-->
-            <li><a href="http://127.0.0.1:8000/reviews">Reviews</a></li>
-            <li><a href="http://127.0.0.1:8000/register">Register</a></li>
-            <li><a href="http://127.0.0.1:8000/login">Login</a></li>
+            <li><a href="{% url 'reviews' %}">Reviews</a></li>
+            <li><a href="{% url 'register' %}">Register</a></li>
+            <li><a href="{% url 'login' %}">Login</a></li>
         {% endif %}
 
             <div class="searchContainer">
