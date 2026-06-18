@@ -1,14 +1,20 @@
 :root {
     --primary-bg-color: #ffc2d1;
-    --primary-dark-bg-color: #8e5572;
     --nav-bar-color: #ffb3c6;
+    --nav-bar-color-switch: #ffb3c6;
+    --hover-color-switch: #ff8fab;
     --main-text-color: black;
+    --dark-text-color: white; 
+    --text-color-switch: black;
     --main-button-color: #bde0fe;
     --main-btn-shadow: #a2d2ff;
+    --light-bg-color: #ffe8d6;
+    --switcher-color: #ffc2d1;
+    --slider-color: #bde0fe;
 }
 
 body { 
-    background-color: var(--primary-bg-color);
+    /*background-color: var(--primary-bg-color);*/
     margin: 0;
     padding: 0; 
     font-family: Arial, Helvetica, sans-serif;
@@ -20,7 +26,7 @@ ul {
     margin: 0;
     padding: 0; 
     overflow: hidden;
-    background-color: var(--nav-bar-color);
+    background-color: var(--nav-bar-color-switch);
 }
 
 ul li {
@@ -29,7 +35,7 @@ ul li {
 
 ul li a {
     display: block;
-    color: black;
+    color: var(--text-color-switch);
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
@@ -38,7 +44,7 @@ ul li a {
 }
 
 ul li a:hover {
-    background-color: #ff8fab;
+    background-color: var(--hover-color-switch)
 }
 
 .welcomeText{
@@ -215,14 +221,14 @@ ul li a:hover {
     width: 42px;
     height: 42px;
     
-    background-color: var(--nav-bar-color);
+    background-color: var(--nav-bar-color-switch);
     color: grey;
     text-decoration: none;
     font-size: 20px;
 }
 
 .topNav .settingsBtn:hover {
-    background-color: var(--nav-bar-color);
+    background-color: var(--nav-bar-color-switch);
     transform: rotate(90deg) scale(1.05);
     
 }
@@ -233,13 +239,149 @@ ul li a:hover {
     justify-content: center;
     width: 4.5rem;
     height: 4.5rem;
-    background-color: var(--nav-bar-color);
+    background-color: var(--nav-bar-color-switch);
     color: black;
     text-decoration: none;
     font-size: 1.5rem;
     margin-left: 10px;
     cursor: pointer; 
     transition: 0.2s;
+}
+
+html.lightTheme {
+    background-color: var(--light-bg-color);
+    --text-color-switch: black;
+    --switcher-color: #ffe8d6;
+    --slider-color: #fec89a;
+    --nav-bar-color-switch: #fec89a;
+    --hover-color-switch: #d4a373;
+}
+
+html.darkTheme {
+    background-color: #001523;
+    --text-color-switch: white;
+    --switcher-color: #001523;
+    --slider-color: #98f5e1;
+    --nav-bar-color-switch: #002945;
+    --hover-color-switch: #00253e;
+}
+
+html.pinkTheme {
+    background-color: var(--primary-bg-color);
+    --text-color-switch: black;
+    --switcher-color: #ffc2d1;
+    --slider-color: #bde0fe;
+    --nav-bar-color-switch: var(--nav-bar-color);
+    --hover-color-switch: #ff8fab;
+}
+
+.menu {
+    width: 90%;
+    margin-top: 80px;
+    max-width: 320px;
+    background-color: var(--switcher-color);
+    transition: background-color .30s ease;
+    border-radius: 15px;
+       
+}
+
+.menuContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.menuHeader {
+    padding: 1rem;
+}
+
+.menuHeaderTitle {
+    font-size: 1.2rem;
+    color: var(--text-color-switch);
+    font-weight: 700;
+}
+
+.themeSwitcher input {
+    display: none;
+}
+
+.themeSwitcher {
+    position: relative;
+    background-color: var(--switcher-color);
+    border-radius: 10px;
+    display: flex;
+    padding: 0 3px;
+}
+
+.themeSwitcher label {
+    position: relative;
+    z-index: 2;
+    width: calc(100% / 3);
+    color: var(--text-color-switch);
+}
+
+.themeSwitcher label span {
+    padding: 8px 0; 
+    display: flex;
+    justify-content: center;
+    font-weight: 600;
+    opacity: 0.8;
+}
+
+.themeSwitcher label span:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+
+.themeSwitcher .slider {
+    position: absolute;
+    z-index: 1;
+    width: calc((100% - 6px) / 3);
+    top: 3px;
+    transform: translateX(-110%);
+    bottom: 3px;
+    border-radius: 8px;
+    transition: .30s ease, transform 0.25s ease-out;
+    background-color: var(--slider-color);
+}
+
+.themeSwitcher input:nth-of-type(1):checked ~ .slider {
+    transform: translateX(0);
+}
+
+.themeSwitcher input:nth-of-type(2):checked ~ .slider {
+    transform: translateX(100%);
+}
+
+.themeSwitcher input:nth-of-type(3):checked ~ .slider {
+    transform: translateX(200%);
+}
+
+.menuBody {
+    padding: 1rem;
+    border-top: 1px solid var(--switcher-color);
+    transition: border-color .30s ease;
+}
+
+.menuBody a {
+    text-decoration: none;
+    color: var(--text-color-switch);;
+    display: flex;
+    padding: 0.6rem 0.5rem;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: .30s ease;
+}
+
+.menuBody a:hover {
+    background-color: var(--switcher-color);;
+}
+
+ion-icon {
+    margin-right: 5px;
+    font-size: 20px;
+    margin-top: 2px;
 }
 
 
