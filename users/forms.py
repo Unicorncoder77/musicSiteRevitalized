@@ -4,6 +4,8 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import User, Profile, Creator, Article, Review, Song, Category
 from django.forms import ModelForm
 from django.contrib.auth.hashers import make_password
+from django.core.validators import MinValueValidator, MaxValueValidator
+import datetime
 
 
 # for the standard user rather than the creator
@@ -82,10 +84,13 @@ class SongForm(forms.ModelForm):
     title = forms.CharField(label="Song Title", max_length=30, widget=forms.TextInput)
     artist = forms.CharField(label="Song Artist",max_length=30,  widget=forms.TextInput)
     category_type = forms.ModelChoiceField(queryset=Category.objects.all(), empty_label="Select a Category")
-    collab = forms.BooleanField(label="collab", required=False)
+    collab = forms.BooleanField(label="Was this a collab?", required=False)
+    single = forms.BooleanField(label="Was this released as a single?", required=False)
+    release_year = forms.IntegerField(label="Enter the release year", validators=[MinValueValidator(1900), MaxValueValidator(datetime.date.today())])
+
     class Meta:
         model = Song
-        fields = ['title', 'artist', 'category_type', 'collab']
+        fields = ['title', 'artist', 'category_type', 'collab', 'single']
 
 class ReviewForm(forms.ModelForm):
     review_title = forms.CharField(label="Review Title", max_length=30, widget=forms.TextInput)

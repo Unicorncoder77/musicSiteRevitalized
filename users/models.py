@@ -5,7 +5,7 @@ from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
 from PIL import Image
 from django.db.models import Avg
-
+import datetime
 
 # Create your models here.
 class User(AbstractUser):
@@ -51,11 +51,22 @@ class Song(models.Model):
     category_type = models.ForeignKey(Category, on_delete=models.CASCADE, null=False)
     artist = models.CharField(max_length=60)
     collab = models.BooleanField(null=False)
+    single = models.BooleanField(null=False)
+    release_year = models.DateField(null=False)
 
     # @Property is a decorator 
     @property
     def avgReview(self)->float:
         return Review.objects.filter(song=self).aggregate(Avg("stars"))["stars__avg"] or 0
+    
+
+class Album(models.Model):
+    title = models.CharField(max_length=40)
+    track_num = models.IntegerField(default=0, null=False)
+    songs = models.ForeignKey(Song, on_delete=models.CASCADE, null=False)
+    category_type = models.ForeignKey(Category, on_delete=models.CASCADE, null=False)
+    artist = models.CharField(max_length=60)
+    release_year = models.DateTimeField(validators=[MinValueValidator(1900), MaxValueValidator(datetime.date.today())])
 
 
 class Review(models.Model):

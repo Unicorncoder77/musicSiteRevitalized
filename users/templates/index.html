@@ -11,7 +11,47 @@ The Experience Home
         text-decoration: none;
         color: black;
     }
-    
+
+     .fa-star {
+        color: lightgray;
+    }
+
+    .checked {
+        color: #9c0cb4;
+    }
+
+    .reviewGrid {
+        display: grid;
+        gap: 5px;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        padding: 10px;
+        justify-content: center;
+    }
+
+    .reviewCard {
+        border-radius: 12px;
+        padding: 20px;
+        background: #ff8fab;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        transition: all .2s ease;
+       
+    }
+
+    .reviewCard:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .reviewCard h3 {
+        margin-bottom: 8px;
+        font-size: 20px;
+    }
+
+    .reviewCard p {
+        color: black;
+    }
+
+
 
 </style>
 <h1 class="welcomeText"> Welcome to The Experience</h1>
@@ -54,11 +94,23 @@ The Experience Home
     </div>
 
 </div>
-
+<h2> Check out some of our best rated songs! </h2>
 <div class="reviewGrid">
+    {% for song, reviews in reviews.items %}
     <div class="reviewCard">
-
+        <h3> {{ song.title }}</h3>
+        {% for review in reviews %}
+        <i class="fa fa-star {% if song.avgReview > 0 %} checked {% endif %}" aria-hidden="true"></i>
+        <i class="fa fa-star {% if song.avgReview > 1 %} checked {% endif %}" aria-hidden="true"></i>
+        <i class="fa fa-star {% if song.avgReview > 2 %} checked {% endif %}" aria-hidden="true"></i>
+        <i class="fa fa-star {% if song.avgReview > 3 %} checked {% endif %}" aria-hidden="true"></i>
+        <i class="fa fa-star {% if song.avgReview > 4 %} checked {% endif %}" aria-hidden="true"></i>
+        
+        
+        <p> {{ review.review }}</p>
+        {% endfor %}
     </div>
+    {% endfor %}
 </div>
 
 <!-- Add creator button here with link 

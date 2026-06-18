@@ -5,116 +5,7 @@
 {% block content %}
 {% include "nav.html" %}
 
-<style>
-    .menu {
-        width: 90%;
-        margin-top: 80px;
-        max-width: 320px;
-        background-color: #ffc2d1;
-        transition: background-color .30s ease;
-        border-radius: 15px;
-       
-    }
 
-    .menuContainer {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-    }
-
-    .menuHeader {
-        padding: 1rem;
-    }
-
-    .menuHeaderTitle {
-        font-size: 1.2rem;
-        color: black;
-        font-weight: 700;
-    }
-
-    .themeSwitcher input {
-        display: none;
-    }
-
-    .themeSwitcher {
-        position: relative;
-        background-color: #ffc2d1;
-        border-radius: 10px;
-        display: flex;
-        padding: 0 3px;
-    }
-
-    .themeSwitcher label {
-        position: relative;
-        z-index: 2;
-        width: calc(100% / 3);
-        color: black;
-    }
-
-    .themeSwitcher label span {
-        padding: 8px 0; 
-        display: flex;
-        justify-content: center;
-        font-weight: 600;
-        opacity: 0.8;
-    }
-
-    .themeSwitcher label span:hover {
-        opacity: 1;
-        cursor: pointer;
-    }
-
-    .themeSwitcher .slider {
-        position: absolute;
-        z-index: 1;
-        width: calc((100% - 6px) / 3);
-        top: 3px;
-        transform: translateX(-110%);
-        bottom: 3px;
-        border-radius: 8px;
-        transition: .30s ease, transform 0.25s ease-out;
-        background-color: #bde0fe;
-    }
-
-    .themeSwitcher input:nth-of-type(1):checked ~ .slider {
-        transform: translateX(0);
-    }
-
-    .themeSwitcher input:nth-of-type(2):checked ~ .slider {
-        transform: translateX(100%);
-    }
-
-    .themeSwitcher input:nth-of-type(3):checked ~ .slider {
-        transform: translateX(200%);
-    }
-
-    .menuBody {
-        padding: 1rem;
-        border-top: 1px solid #ffc2d1;
-        transition: border-color .30s ease;
-    }
-
-    .menuBody a {
-        text-decoration: none;
-        color: inherit;
-        display: flex;
-        padding: 0.6rem 0.5rem;
-        border-radius: 4px;
-        font-weight: 500;
-        transition: .30s ease;
-    }
-
-    .menuBody a:hover {
-        background-color: #ffc2d1;
-    }
-
-    ion-icon {
-        margin-right: 5px;
-        font-size: 20px;
-        margin-top: 2px;
-    }
-</style>
 <div class="menuContainer">
 
 
@@ -134,6 +25,12 @@
                     <ion-icon name="moon"></ion-icon> Dark
                 </span>
             </label>
+            <input type="radio" id="pinkTheme" name="themes" />
+            <label for="pinkTheme">
+                <span>
+                    <ion-icon name="rose-outline"></ion-icon> Pink 
+                </span>
+            </label>
             <span class="slider"></span>
         </div>
     </div>
@@ -149,13 +46,24 @@
 <script>
     var html = document.getElementsByTagName('html');
     var radios = document.getElementsByName('themes');
+    var saved = localStorage.getItem('theme');
+
+    if(saved){
+        document.documentElement.className = saved;
+        var radio = document.getElementById(saved);
+        if(radio) {
+            radio.clicked = true; 
+        }
+    }
 
     for (i = 0; i < radios.length; i++) {
         radios[i].addEventListener('change', function() {
-            html[0].classList.remove(html[0].classList.item(0));
-            html[0].classList.add(this.id);
+           document.documentElement.className = this.id;
+           localStorage.setItem("theme", this.id);
         });
     }
+
+   
 </script>
 
 

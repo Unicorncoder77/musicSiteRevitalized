@@ -7,12 +7,24 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from .models import Profile, Song, Review, Category 
+from collections import defaultdict
 
 # Create your views here.
 
 def home(request):
     #template = loader.get_template('index.html')
-    return render(request, 'index.html')
+
+    topReviews = Review.objects.select_related("song", "author").order_by("stars")
+
+    groupedReviews = defaultdict(list)
+
+    for topReview in topReviews:
+        groupedReviews[topReview.song].append(topReview)
+
+    
+    songs = Song.objects.all()
+    context = {"reviews" : dict(groupedReviews), "songs": songs}
+    return render(request, 'index.html', context)
 
 @login_required
 def userHome(request):

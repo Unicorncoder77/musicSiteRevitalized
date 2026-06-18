@@ -16,5 +16,14 @@
         <p> &copy; 2026 TheeUnicornSites. All rights reserved</p>
     </footer>-->
     
+<script>
+    (function () {
+        const saved = localStorage.getItem("theme");
+
+        if(saved){
+            document.documentElement.className = saved;
+        }
+    })();
+</script>
 </body>
 </html>
