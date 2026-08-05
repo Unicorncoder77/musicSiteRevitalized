@@ -1,0 +1,28 @@
+{% extends "master.html" %}
+{% block title %}
+Creator Register
+{% endblock %}
+
+{% block content %}
+{% include "nav.html" %}
+<div class="formContainer">
+    <div class="formHeader">
+        <h3> Sign Up</h3>
+    </div>
+    <div class="inputContainer">
+        <form method="POST">
+            {% csrf_token %}
+            {{ registerForm.as_p}}
+        </form>
+
+        <div class="button">
+            <button class="submit" type="submit">Sign up</button>
+        </div>
+        <div class="signup">
+            <p> Already have an account? <a href="{% url 'loginCreator' %}">Log in</a></p>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

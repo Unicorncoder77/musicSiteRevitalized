@@ -66,19 +66,19 @@ class UpdateProfileForm(forms.ModelForm):
 
 # for the creator of articles
 class CreatorRegistrationForm(forms.ModelForm):
-    first_name = forms.CharField(label="fName", max_length=30, widget=forms.TextInput (attrs={'class' : 'fName ele'}))
-    last_name = forms.CharField(label="lName", max_length=30, widget=forms.TextInput (attrs={'class': 'lName ele'}))
+    first_name = forms.CharField(label="First Name", max_length=30, widget=forms.TextInput (attrs={'class' : 'fName ele'}))
+    last_name = forms.CharField(label="Last Name", max_length=30, widget=forms.TextInput (attrs={'class': 'lName ele'}))
     email = forms.EmailField(label="Email", widget=forms.TextInput (attrs={'class' : 'email ele'}))
-    pen_name = forms.CharField(label="penName", max_length=30, widget=forms.TextInput (attrs={'class' : 'pName ele'}))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'id': 'password' , 'class' : 'password ele'}))
+    pen_name = forms.CharField(label="Pen Name", max_length=30, widget=forms.TextInput (attrs={'class' : 'pName ele'}))
+    password = forms.CharField(label="Password", widget=forms.PasswordInput(attrs={'id': 'password' , 'class' : 'password ele'}))
 
     class Meta:
         model = Creator
         fields = ['first_name', 'last_name', 'email', 'pen_name', 'password']
 
 class CreatorLoginForm(forms.Form):
-    pen_name = forms.CharField(max_length=30, widget=forms.TextInput(attrs={'class' : 'pName ele'}))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'id': 'password', 'class' : 'password ele'}))
+    pen_name = forms.CharField(label="Pen Name", max_length=30, widget=forms.TextInput(attrs={'class' : 'pName ele'}))
+    password = forms.CharField(label="Password", widget=forms.PasswordInput(attrs={'id': 'password', 'class' : 'password ele'}))
 
 class SongForm(forms.ModelForm):
     title = forms.CharField(label="Song Title", max_length=30, widget=forms.TextInput)

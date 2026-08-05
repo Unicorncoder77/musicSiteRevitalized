@@ -115,51 +115,87 @@ def avatar(request):
     return render(request, 'avatar.html');
 
 
-def registerCreator(request):
+'''def registerCreator(request):
     context = {}
     print("Request method: ", request.method)
-    form = CreatorRegistrationForm()
+    registerForm = CreatorRegistrationForm()
     #passForm = UserPasswordField()
     
     if (request.method == 'POST'):
-        form = CreatorRegistrationForm(request.POST)
-        # create form instance
-        # check validity
-        if (form.is_valid()):
-            print("valid form")
-            #user = form.save(commit=False)
-            #user.set_password(form.cleaned_data['password'])
-            form.save()
-            
-            #login(request, form)
-            return redirect('userHome')
-       
+        registerForm = CreatorRegistrationForm()
+        if (registerForm.is_valid()):
+            creator = registerForm.save(commit=False)
+            creator.penName = creator.penName.lower()
+            creator.set_password(registerForm.cleaned_data['password'])
+            creator.save()
+            login(request, creator)
+            return redirect('creatorPortal')
         else:
-            form = CreatorRegistrationForm()
+            registerForm = CreatorRegistrationForm()
            
-    return render(request, 'creatorLogin.html', {'form': form})
+    return render(request, 'creatorRegister.html', {'registerForm': registerForm})
 
 def loginCreator(request):
-    form = forms.CreatorLoginForm()
+    loginForm = forms.CreatorLoginForm()
     if (request.method == 'POST'):
-        form = forms.CreatorLoginForm(request.POST)
-        if (form.is_valid()):
-            creator = authenticate(request, username=form.cleaned_data['username'], password=form.cleaned_data['password'])
-            print(form.cleaned_data)
+        loginForm = forms.CreatorLoginForm(request.POST)
+        if (loginForm.is_valid()):
+            creator = authenticate(request, username=loginForm.cleaned_data['penName'], password=loginForm.cleaned_data['password'])
+            print(loginForm.cleaned_data)
             
             if (creator is not None):
                 print("Authenticated successfully")
                 login(request, creator)
                 
-                return redirect('userHome')
+                return redirect('creatorPortal')
                 #message = f'Hello {user.username}! Welcome back!'
             else:
                 print("Authentication failed")
-                print("User: ", creator.username)
-                print("INPUT: ", form.cleaned_data['username'], form.cleaned_data['password'])
-                return render(request, 'creatorLogin.html', context={'form': form})
+                print("User: ", creator.penName)
+                print("INPUT: ", loginForm.cleaned_data['penName'], loginForm.cleaned_data['password'])
+                return render(request, 'creatorLogin.html', context={'loginForm': loginForm})
             
-    return render(request, 'creatorLogin.html', context={'form': form})
+    return render(request, 'creatorLogin.html', context={'loginForm': loginForm})'''
+
+
+def creatorPortal(request):
+    context = {}
+    registerForm = CreatorRegistrationForm()
+    loginForm = CreatorLoginForm()
+
+    if (request.method == 'POST'):
+        if ('login' in request.POST):
+            loginForm = CreatorLoginForm(request.POST)
+            if (loginForm.is_valid()):
+                creator = authenticate(request, username=loginForm.cleaned_data['penName'], password=loginForm.cleaned_data['password'])
+
+                if (creator is not None):
+                    login(request, creator)
+
+                    return redirect('creatorHome')
+                else:
+                    print("Authentication failed")
+                    print("User: ", creator.penName)
+                    print("INPUT: ", loginForm.cleaned_data['penName'], loginForm.cleaned_data['password'])
+                    return render(request, 'creatorPortal.html', context={'loginForm' : loginForm})
+        elif ('register' in request.POST):
+            registerForm = CreatorRegistrationForm(request.POST)
+            if (registerForm.is_valid()):
+                creator = registerForm.save(commit=False)
+                creator.penName = creator.penName.lower()
+                creator.set_password(registerForm.cleaned_data['password'])
+                creator.save()
+                login(request, creator)
+                return redirect('creatorHome')
+            else:
+                registerForm = CreatorRegistrationForm()
+                return render(request, 'creatorPortal.html', context={'registerForm': registerForm})
+
+    return render(request, 'creatorPortal.html', context={'registerForm': registerForm, 'loginForm' : loginForm})
+
+@login_required
+def creatorHome(request):
+    return render(request, 'creatorHome.html')
 
 
 @login_required

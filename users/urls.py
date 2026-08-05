@@ -9,7 +9,7 @@ urlpatterns = [
     path('home/', views.userHome, name='userHome'),
     path('logout/', views.logoutUser, name='logout'),
     path('profile/', views.profile, name='profile'),
-    path('creatorLogin/', views.registerCreator, name='creatorLogin'),
+    #path('creatorLogin/', views.registerCreator, name='creatorLogin'),
     path('settings/', views.settings, name='settings'),
     path('avatar/', views.avatar, name='avatar'),
     path("songs/new/", views.createSong, name='createSong'),
@@ -18,6 +18,10 @@ urlpatterns = [
     path('reviews/', views.reviews, name='reviews'),
     path('userReviews/', views.yourReviews, name='yourReviews'),
     path('pleaseLogin/', views.pleaseLogin, name='pleaseLogin'),
+    path('creatorPortal/', views.creatorPortal, name='creatorPortal'),
+    path('creatorHome/', views.creatorHome, name='creatorHome'),
+    #path('creatorLogin/', views.loginCreator, name='loginCreator'),
+    #path('creatorRegister/', views.registerCreator, name='registerCreator'),
     #path('creatorLogin/', views.loginCreator, name='creatorLogin'),
    
 ]
