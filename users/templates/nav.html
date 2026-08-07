@@ -17,10 +17,21 @@ Nav Bar
             <!--<li><a href="http://127.0.0.1:8000/profile"> Your Profile </a></li>-->
             <!--<li><a href="#">Articles</a></li>-->
             <li><a href="{% url 'reviews' %}">Reviews</a></li>
+            <li><a href="#"> Blogs</a></li>
             <li><a href="{% url 'logout' %}">Logout</a></li>
             <div class="avatarContainer">
                 <a href="{% url 'avatar' %}" class="avatarBtn"><i class="fa fa-user" aria-hidden="true"></i></a>
             </div>
+            <div class="settingsContainer">
+                <a href="{% url 'settings' %}" class="settingsBtn"><i class="fa fa-cog"></i></a>
+            </div>
+        {% elif creator.is_authenticated %}
+            <li><a href="{% url 'creatorHome' %}"> Your HomePage</a></li>
+            <li><a href="{% url 'yourReviews' %}">Your Reviews </a></li>
+            <li><a href="{% url 'reviews' %}">Reviews</a></li>
+            <li><a href="#"> Blogs</a></li>
+            <li><a href="#"> Your Blog </a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
             <div class="settingsContainer">
                 <a href="{% url 'settings' %}" class="settingsBtn"><i class="fa fa-cog"></i></a>
             </div>

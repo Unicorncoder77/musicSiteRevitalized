@@ -167,7 +167,7 @@ def creatorPortal(request):
         if ('login' in request.POST):
             loginForm = CreatorLoginForm(request.POST)
             if (loginForm.is_valid()):
-                creator = authenticate(request, username=loginForm.cleaned_data['penName'], password=loginForm.cleaned_data['password'])
+                creator = authenticate(request, username=loginForm.cleaned_data['pen_name'], password=loginForm.cleaned_data['password'])
 
                 if (creator is not None):
                     login(request, creator)
@@ -175,14 +175,14 @@ def creatorPortal(request):
                     return redirect('creatorHome')
                 else:
                     print("Authentication failed")
-                    print("User: ", creator.penName)
-                    print("INPUT: ", loginForm.cleaned_data['penName'], loginForm.cleaned_data['password'])
+                    print("User: ", creator.pen_name)
+                    print("INPUT: ", loginForm.cleaned_data['pen_name'], loginForm.cleaned_data['password'])
                     return render(request, 'creatorPortal.html', context={'loginForm' : loginForm})
         elif ('register' in request.POST):
             registerForm = CreatorRegistrationForm(request.POST)
             if (registerForm.is_valid()):
                 creator = registerForm.save(commit=False)
-                creator.penName = creator.penName.lower()
+                creator.pen_name = creator.pen_name.lower()
                 creator.set_password(registerForm.cleaned_data['password'])
                 creator.save()
                 login(request, creator)

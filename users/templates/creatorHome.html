@@ -1,1 +1,20 @@
 {% extends "master.html" %}
+{% block title %}
+{{ creator.pen_name}}'s Profile
+{% endblock %}
+{% block content %}
+{% include 'nav.html' %}
+<style>
+    h1 {
+        text-align: center;
+    }
+</style>
+
+<h1> Welcome Back {{ creator.pen_name }}</h1>
+
+{% if creator.is_authenticated %}
+<h1> Thank you !</h1>
+<h3> Here are some of the latest impressions on your latest blog </h3>
+
+{% endif %}
+{% endblock %}

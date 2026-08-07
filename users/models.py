@@ -94,6 +94,9 @@ class Creator(models.Model):
         if not self.password.startswith('pbkdf2_'):
             self.password = make_password(self.password)
         super().save(*args, **kwargs)
+    
+    def set_password(self, rawPassword):
+        self.password = make_password(rawPassword)
 
 class Article(models.Model):
     article_title = models.CharField(max_length=255)
