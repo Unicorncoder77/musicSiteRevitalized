@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
-from .models import User, Profile, Creator, Article, Review, Song, Category
+from .models import *
 from django.forms import ModelForm
 from django.contrib.auth.hashers import make_password
 from django.core.validators import MinValueValidator, MaxValueValidator
@@ -31,14 +31,16 @@ class UserRegisterForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput(attrs={'id': 'password'}))
    
     class Meta:
-        model = User
+        model = Reviewer
         fields = ['username', 'email', 'password']
 
-    '''def save(self, commit=True):
+    def save(self, commit=True):
         user = super().save(commit=False)
+        user.user_type = CustomUser.REVIEWER
+        user.set_password(self.cleaned_data['password'])
         if (commit):
             user.save()
-        return user'''
+        return user
     #password = forms.CharField(widget=forms.PasswordInput())
     #repeat_password = forms.CharField(widget=forms.PasswordInput())
 
@@ -50,19 +52,19 @@ class UserLoginForm(forms.Form):
 class UpdateUserForm(forms.ModelForm):
     '''username = forms.CharField(label="Username", max_length=20, widget=forms.TextInput)
     email = forms.EmailField(label="Email", widget=forms.TextInput)'''
-    print(User)
+    #print(User)
 
     class Meta: 
-        model = User
+        model = Reviewer
         fields = ['username', 'email']
 
 class UpdateProfileForm(forms.ModelForm):
     avatar = forms.ImageField(label="avatar", widget=forms.FileInput)
     bio = forms.CharField(label="bio", widget=forms.Textarea)
-    print(User)
+    print(CustomUser)
     class Meta:
-        model = Profile
-        fields = ['avatar', 'bio']
+        model = Reviewer
+        fields = ['profile_pic', 'bio']
 
 # for the creator of articles
 class CreatorRegistrationForm(forms.ModelForm):

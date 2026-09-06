@@ -6,9 +6,11 @@ from django.utils import timezone
 from PIL import Image
 from django.db.models import Avg
 import datetime
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 
 # Create your models here.
-class User(AbstractUser):
+'''class User(AbstractUser):
     username = models.CharField(max_length=255, unique=True, null=False)
     email = models.EmailField(max_length=255, unique=True, null=False)
     joined_date = models.DateField(auto_now_add=True, null=False)
@@ -36,8 +38,78 @@ class Profile(models.Model):
 
     # standard str method that returns the username 
     def __str__(self):
-        return self.user.username
+        return self.user.username'''
+
+class CustomUser(AbstractUser):
+    CREATOR = '1'
+    REVIEWER = '2'
+
+    EMAIL_TO_USER_TYPE_MAP = {
+        'creator': CREATOR,
+        'reviewer': REVIEWER
+    }
+
+    user_type_data = ((CREATOR, "CREATOR"), (REVIEWER, "REVIEWER"))
+    user_type = models.CharField(default=CREATOR, choices=user_type_data, max_length=20)
+
+
+
+class Creator(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
+    email = models.EmailField(max_length=255, unique=True, null=False)
+    pen_name = models.CharField(max_length=255)
+    joined_date = models.DateField(auto_now_add=True, null=False)
+    password = models.CharField(max_length=255, null=False)
+
+    profile_pic = models.ImageField(default='stockAvatar.jpg', upload_to='profile_images')
+    bio = models.TextField(blank=True)
+    def save(self, *args, **kwargs):
+        # hash if not hashed already
+        if not self.password.startswith('pbkdf2_'):
+            self.password = make_password(self.password)
+        super().save(*args, **kwargs)
+        
+    def set_password(self, rawPassword):
+        self.password = make_password(rawPassword)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    objects = models.Manager()
+class Reviewer(models.Model):
+    id = models.AutoField(primary_key=True)
+    username = models.CharField(max_length=255, unique=True, null=False)
+
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    email = models.EmailField(max_length=255, unique=True, null=False)
+
+    password = models.CharField(max_length=255, null=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    updated_at = models.DateTimeField(auto_now=True)
+    profile_pic = models.ImageField(default='stockAvatar.jpg', upload_to='profile_images')
+    bio = models.TextField()
+    def save(self, *args, **kwargs):
+            # hash if not hashed already
+            if not self.password.startswith('pbkdf2_'):
+                self.password = make_password(self.password)
+            super().save(*args, **kwargs)
+    # add the playlist items later 
     
+
+@receiver(post_save, sender=CustomUser)
+
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        
+        if (instance.user_type == CustomUser.CREATOR):
+            Creator.objects.create(creator=instance)
+        elif (instance.user_type == CustomUser.REVIEWER):
+            Reviewer.objects.create(reviewer=instance)
+
+
 # one to one would be better for a singular usage not linking a singular key to multiple items
 # the foreign key would work for the rest of these use cases / many-to-one
 class Category(models.Model):
@@ -74,7 +146,7 @@ class Review(models.Model):
     stars = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)], default=0)
     review_title = models.CharField(max_length=255, null=False)
     # on_delete = cascade allows for everything from the user or the category to be deleted 
-    author = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
+    author = models.ForeignKey(Reviewer, on_delete=models.CASCADE, null=False)
     publication_date = models.DateField(auto_now_add=True, null=False)
     song = models.ForeignKey(Song, on_delete=models.CASCADE, null=False, related_name="reviews")
 
@@ -82,7 +154,11 @@ class Review(models.Model):
 
   # create a top reviews to make it easier to filter out (newest three or best rated perhaps)
 
-class Creator(models.Model):
+'''class Creator(models.Model):
+    ROLE_CHOICES = (
+        ('creator', 'Creator'),
+        ('user', 'User'),
+    )
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     email = models.EmailField(max_length=255, unique=True, null=False)
@@ -96,7 +172,7 @@ class Creator(models.Model):
         super().save(*args, **kwargs)
     
     def set_password(self, rawPassword):
-        self.password = make_password(rawPassword)
+        self.password = make_password(rawPassword)'''
 
 class Article(models.Model):
     article_title = models.CharField(max_length=255)

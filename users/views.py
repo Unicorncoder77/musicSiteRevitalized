@@ -6,7 +6,7 @@ from . import forms
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth import get_user_model
-from .models import Profile, Song, Review, Category 
+from .models import Song, Review, Category 
 from collections import defaultdict
 
 # Create your views here.
@@ -26,7 +26,10 @@ def home(request):
     context = {"reviews" : dict(groupedReviews), "songs": songs}
     return render(request, 'index.html', context)
 
-@login_required
+def about(request):
+    return render(request, 'about.html')
+
+'''@login_required
 def userHome(request):
     return render(request, 'userHomePage.html')
 
@@ -112,7 +115,7 @@ def settings(request):
 
 @login_required
 def avatar(request):
-    return render(request, 'avatar.html');
+    return render(request, 'avatar.html');'''
 
 
 '''def registerCreator(request):
@@ -158,16 +161,17 @@ def loginCreator(request):
     return render(request, 'creatorLogin.html', context={'loginForm': loginForm})'''
 
 
-def creatorPortal(request):
-    context = {}
+'''def creatorPortal(request):
+    #context = {}
     registerForm = CreatorRegistrationForm()
     loginForm = CreatorLoginForm()
 
     if (request.method == 'POST'):
+        print("form was post")
         if ('login' in request.POST):
             loginForm = CreatorLoginForm(request.POST)
             if (loginForm.is_valid()):
-                creator = authenticate(request, username=loginForm.cleaned_data['pen_name'], password=loginForm.cleaned_data['password'])
+                creator = authenticate(request, username=loginForm.cleaned_data['pen_name'].lower(), password=loginForm.cleaned_data['password'])
 
                 if (creator is not None):
                     login(request, creator)
@@ -175,27 +179,39 @@ def creatorPortal(request):
                     return redirect('creatorHome')
                 else:
                     print("Authentication failed")
-                    print("User: ", creator.pen_name)
+                    #print("User: ", creator.pen_name)
                     print("INPUT: ", loginForm.cleaned_data['pen_name'], loginForm.cleaned_data['password'])
-                    return render(request, 'creatorPortal.html', context={'loginForm' : loginForm})
+            return render(request, 'creatorPortal.html', {'loginForm' : loginForm, 'creator' : request.user})
         elif ('register' in request.POST):
+            print("form was post")
             registerForm = CreatorRegistrationForm(request.POST)
             if (registerForm.is_valid()):
+                print("register form is valid")
                 creator = registerForm.save(commit=False)
                 creator.pen_name = creator.pen_name.lower()
                 creator.set_password(registerForm.cleaned_data['password'])
                 creator.save()
                 login(request, creator)
                 return redirect('creatorHome')
+            context = {
+                'registerForm' : registerForm,
+                'loginForm' : loginForm
+            }
+            return render(request, 'creatorPortal.html', {'registerForm' : registerForm, 'loginForm' : loginForm, 'creator' : request.user})
             else:
                 registerForm = CreatorRegistrationForm()
                 return render(request, 'creatorPortal.html', context={'registerForm': registerForm})
 
-    return render(request, 'creatorPortal.html', context={'registerForm': registerForm, 'loginForm' : loginForm})
+    context = {
+        'registerForm' : registerForm,
+        'loginForm' : loginForm
+    }
+
+    return render(request, 'creatorPortal.html', {'registerForm' : registerForm, 'loginForm' : loginForm, 'creator' : request.user})
 
 @login_required
 def creatorHome(request):
-    return render(request, 'creatorHome.html')
+    return render(request, 'creatorHome.html')'''
 
 
 @login_required
