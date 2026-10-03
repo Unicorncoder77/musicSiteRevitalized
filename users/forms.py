@@ -63,7 +63,7 @@ class UpdateProfileForm(forms.ModelForm):
     bio = forms.CharField(label="bio", widget=forms.Textarea)
     print(CustomUser)
     class Meta:
-        model = Reviewer
+        model = CustomUser
         fields = ['profile_pic', 'bio']
 
 # for the creator of articles

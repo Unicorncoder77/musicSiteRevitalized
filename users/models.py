@@ -40,20 +40,32 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username'''
 
+#class CustomUser(AbstractUser):
+#    CREATOR = '1'
+#    REVIEWER = '2'
+
+    #EMAIL_TO_USER_TYPE_MAP = {
+     #   'creator': CREATOR,
+     #   'reviewer': REVIEWER
+   # }
+
+   # user_type_data = ((CREATOR, "CREATOR"), (REVIEWER, "REVIEWER"))
+  #  user_type = models.CharField(default=CREATOR, choices=user_type_data, max_length=20)
+
+
 class CustomUser(AbstractUser):
-    CREATOR = '1'
-    REVIEWER = '2'
+    bio = models.TextField(blank=True)
+    profile_pic = models.ImageField(default='stockAvatar.jpg', upload_to='profile_images')
+    
+    joined_date = models.DateField(auto_now_add=True, null=False)
+    
 
-    EMAIL_TO_USER_TYPE_MAP = {
-        'creator': CREATOR,
-        'reviewer': REVIEWER
-    }
+    ROLE_CHOICES = (
+        ('creator', 'Creator'),
+        ('reviewer', 'Reviewer')
+    )
 
-    user_type_data = ((CREATOR, "CREATOR"), (REVIEWER, "REVIEWER"))
-    user_type = models.CharField(default=CREATOR, choices=user_type_data, max_length=20)
-
-
-
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='')
 class Creator(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
@@ -63,51 +75,31 @@ class Creator(models.Model):
     email = models.EmailField(max_length=255, unique=True, null=False)
     pen_name = models.CharField(max_length=255)
     joined_date = models.DateField(auto_now_add=True, null=False)
-    password = models.CharField(max_length=255, null=False)
+    
 
-    profile_pic = models.ImageField(default='stockAvatar.jpg', upload_to='profile_images')
-    bio = models.TextField(blank=True)
-    def save(self, *args, **kwargs):
-        # hash if not hashed already
-        if not self.password.startswith('pbkdf2_'):
-            self.password = make_password(self.password)
-        super().save(*args, **kwargs)
-        
-    def set_password(self, rawPassword):
-        self.password = make_password(rawPassword)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    objects = models.Manager()
+  
+   
+    
 class Reviewer(models.Model):
     id = models.AutoField(primary_key=True)
     username = models.CharField(max_length=255, unique=True, null=False)
-
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     email = models.EmailField(max_length=255, unique=True, null=False)
-
-    password = models.CharField(max_length=255, null=False)
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+   
     created_at = models.DateTimeField(auto_now_add=True)
-
     updated_at = models.DateTimeField(auto_now=True)
-    profile_pic = models.ImageField(default='stockAvatar.jpg', upload_to='profile_images')
-    bio = models.TextField()
-    def save(self, *args, **kwargs):
-            # hash if not hashed already
-            if not self.password.startswith('pbkdf2_'):
-                self.password = make_password(self.password)
-            super().save(*args, **kwargs)
-    # add the playlist items later 
+   
+    # add the playlist items later
     
 
 @receiver(post_save, sender=CustomUser)
 
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        
-        if (instance.user_type == CustomUser.CREATOR):
-            Creator.objects.create(creator=instance)
-        elif (instance.user_type == CustomUser.REVIEWER):
-            Reviewer.objects.create(reviewer=instance)
+        if (instance.role == 'creator'):
+            Creator.objects.create(user=instance)
+        elif (instance.role == 'reviewer'):
+            Reviewer.objects.create(user=instance)
 
 
 # one to one would be better for a singular usage not linking a singular key to multiple items

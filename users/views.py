@@ -29,6 +29,15 @@ def home(request):
 def about(request):
     return render(request, 'about.html')
 
+@login_required 
+def userHome(request):
+    return render(request, 'userHomePage.html')
+
+def creatorRegister(request):
+    context = {}
+    print("Request method: ", request.method)
+    form = UserRegisterForm()
+
 '''@login_required
 def userHome(request):
     return render(request, 'userHomePage.html')
